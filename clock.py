@@ -62,21 +62,20 @@ class Clock():
     # Display non-military time:
     if hour > 12: hour = hour - 12
     # Making the time into a list of numbers:
-    timeNow = str(hour) + str(minute)
-    timeNow = list(timeNow)
+    self.timeNow = str(hour) + str(minute)
+    self.timeNow = list(self.timeNow)
     # Adding blank space if only three digits:
-    if len(timeNow) == 3:
-      timeNow.insert(0,10) # ten is a blank space
-    print(timeNow)
-    return(timeNow)
+    if len(self.timeNow) == 3:
+      self.timeNow.insert(0,10) # ten is a blank space
+    return(self.timeNow)
 
   def runClock(self, timeNow):
     if str(time.localtime().tm_min) != self.currentMinute:
-      timeNow = self.getTime() # the timeNow from gettime
+      self.timeNow = self.getTime() # the timeNow from gettime
       self.currentMinute = str(time.localtime().tm_min)
     for d in range(4):
       GPIO.output(self.digitPins[d],1)
-      self.setNumber(int(timeNow[d]))
+      self.setNumber(int(self.timeNow[d]))
       time.sleep(0.005)
       GPIO.output(self.digitPins[d],0)
 
@@ -92,11 +91,11 @@ class Clock():
       GPIO.output(self.digitPins[d],0) 
 
   def run(self):
-    timeNow = self.getTime()
+    self.timeNow = self.getTime()
     while True:
       switch = GPIO.input(self.switchPin)
       if switch == True:
-        self.runClock(timeNow)
+        self.runClock(self.timeNow)
       elif switch == False:
         self.runTemp()
 
