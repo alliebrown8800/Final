@@ -55,14 +55,15 @@ class Clock():
     self.shifter.shiftByte(Clock.numbers[num])
 
   def getTime(self):
-    minute = time.localtime().tm_min
+    minute = str(time.localtime().tm_min)
+    if minute < 10: minute = '0' + minute
     # Because the time comes up wrong:
     hour = time.localtime().tm_hour - 5
     if hour < 1: hour = hour + 24
     # Display non-military time:
     if hour > 12: hour = hour - 12
     # Making the time into a list of numbers:
-    self.timeNow = str(hour) + str(minute)
+    self.timeNow = str(hour) + minute
     self.timeNow = list(self.timeNow)
     # Adding blank space if only three digits:
     if len(self.timeNow) == 3:
