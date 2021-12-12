@@ -55,8 +55,8 @@ class Clock():
     self.shifter.shiftByte(Clock.numbers[num])
 
   def getTime(self):
-    minute = str(time.localtime().tm_min)
-    if minute < 10: minute = '0' + minute
+    minute = time.localtime().tm_min
+    if minute < 10: minute = '0' + str(minute)
     # Because the time comes up wrong:
     hour = time.localtime().tm_hour - 5
     if hour < 1: hour = hour + 24
