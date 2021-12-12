@@ -70,9 +70,12 @@ class Clock():
     return(timeNow)
 
   def runClock(self, timeNow):
+    print(time.localtime().tm_min)
+    print(self.currentMinute)
     if str(time.localtime().tm_min) != self.currentMinute:
       timeNow = self.getTime()
       self.currentMinute = str(time.localtime().tm_min)
+      print('update this ish')
     for d in range(4):
       GPIO.output(self.digitPins[d],1)
       self.setNumber(int(timeNow[d]))
