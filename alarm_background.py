@@ -46,6 +46,7 @@ matrix.updatePattern(blankPattern) # start on blank until message is chosen
 # Other initialized values:
 chosen_alarm = '' # initialize with no alarm chosen
 GPIO.output(buzzerPin,0) # make sure buzzer for alarm is OFF
+alarmGoneOff = False
 
 # Function for shooting cannon:
 def cannon(pwm,motorPin):
@@ -67,6 +68,7 @@ try:
 
     if str(parents_options['alarm']) != chosen_alarm and parents_options['alarm'] != 'null': # if the chosen alarm is different than what it was before
       chosen_alarm = str(parents_options['alarm']) # then change it - this will be a string i believe 0345 yanno
+      alarmGoneOff = False
       
     if chosen_message == 'smile':
       matrix.updatePattern(smilePattern)
@@ -75,18 +77,20 @@ try:
     elif chosen_message == 'heart':
       matrix.updatePattern(heartPattern)
 
+    if minute != time.localtime().tm_min: alarmGoneOff = False
+
     # Get the time:
     minute = time.localtime().tm_min
-    # Because the time comes up wrong:
+    # Formatting time:
     hour = time.localtime().tm_hour - 5
     if hour < 1: hour = hour + 24
-    # Display non-military time:
     if hour > 12: hour = hour - 12
     # Making the time into a list of numbers:
     currentTime = str(hour) + ':' + str(minute)
     checkTime = str(time.localtime().tm_hour - 5)+':'+str(minute) # this is the current time
 
-    if chosen_alarm == checkTime: # if the current time is the time the alarm is set for
+    if chosen_alarm == checkTime and alarmGoneOff == False: # if the current time = alarm time, and the alarm hasn't gone off within this minute yet
+      alarmGoneOff = True
       GPIO.output(buzzerPin,1); time.sleep(2) # turn on buzzer for 4 seconds      
       if shotCheck:
         cannon(pwm,motorPin) # fire cannon
