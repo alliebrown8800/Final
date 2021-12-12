@@ -82,6 +82,7 @@ try:
 
     # Get the time:
     minute = time.localtime().tm_min
+    if minute < 10: minute = '0' + str(minute)
     # Formatting time:
     hour = time.localtime().tm_hour - 5
     if hour < 1: hour = hour + 24
