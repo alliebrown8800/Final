@@ -10,7 +10,7 @@ from led8x8 import led8x8 # the class that runs the LED matrix display
 # Pin Setup
 dataPin, latchPin, clockPin = 17, 27, 22 # for the clock display registers
 digitPins = [6, 5, 13, 19] # pins that activate digits on clock
-motionPin = 14 # motion sensor data Pin
+motionPin = 4 # motion sensor data Pin
 buzzerPin = 21 # buzzer output pin
 switchPin = 18 # switch input pin
 DHTPin = 23 # temperature sensor data input pin
@@ -92,10 +92,8 @@ try:
         cannon(pwm,motorPin) # fire cannon
         shotCheck = False # has shot pong ball
       while GPIO.input(motionPin) == False: # while the motion sensor senses no motion
-        print('alarm goes off!')
+        print(GPIO.input(motionPin))
         # Alarm beeps:
-        motion = GPIO.input(motionPin)
-        print(motion)
         GPIO.output(buzzerPin,1); time.sleep(.5)
         GPIO.output(buzzerPin,0); time.sleep(.5)
       GPIO.output(buzzerPin,0) # turn off alarm when motion is sensed
