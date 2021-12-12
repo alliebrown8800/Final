@@ -18,8 +18,8 @@ class Clock():
     0b11111000, # 7
     0b10000000, # 8
     0b10010000, # 9
-    0b11111111,
-    0b10001110] # blank
+    0b11111111, # blank
+    0b10001110] # F
 
 
   def __init__(self, data, latch, clock, digitPins, switchPin, DHTPin):
