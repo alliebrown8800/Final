@@ -78,7 +78,7 @@ try:
     elif chosen_message == 'heart':
       matrix.updatePattern(heartPattern)
 
-    if minute != time.localtime().tm_min: alarmGoneOff = False
+    if int(minute) != time.localtime().tm_min: alarmGoneOff = False
 
     # Get the time:
     minute = time.localtime().tm_min
