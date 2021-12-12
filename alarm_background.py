@@ -72,7 +72,7 @@ try:
       matrix.updatePattern(smilePattern)
     elif chosen_message == 'silly':
       matrix.updatePattern(sillyPattern)
-    elif chosen_message = 'heart'
+    elif chosen_message == 'heart':
       matrix.updatePattern(heartPattern)
 
     # Get the time:
