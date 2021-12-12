@@ -47,6 +47,7 @@ matrix.updatePattern(blankPattern) # start on blank until message is chosen
 chosen_alarm = '' # initialize with no alarm chosen
 GPIO.output(buzzerPin,0) # make sure buzzer for alarm is OFF
 alarmGoneOff = False
+minute = time.localtime().tm_min
 
 # Function for shooting cannon:
 def cannon(pwm,motorPin):
