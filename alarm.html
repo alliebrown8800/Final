@@ -1,0 +1,28 @@
+<!-- Put this file in /var/www/html/alarm.html 
+ and put py files in /usr/lib/cgi-bin/*.py -->
+
+
+<html>
+<form action="/cgi-bin/alarm.py" method="POST">
+
+<body style="background-color:powderblue;">
+<h1 style="font-family:Tahoma;color:yellow;">Little Timmy's Wake-Up Alarm</h1>
+
+<p style="font-family: Tahoma">
+
+<!-- Selecting Message to Send -->
+<input type="radio" name="message" value="smile" checked> Smiley Face <br>
+<input type="radio" name="message" value="silly"> Silly Face <br>
+<input type="radio" name="message" value="heart"> Heart <br>
+<br>
+
+<!-- Selecting Alarm Time -->
+<label for="alarm">Select a time for your child's alarm to sound:</label> <br>
+<input type="time" id="alarm" name="alarm"> <br>
+<br> <br>
+
+<!-- Submit -->
+<input type="submit" value="Submit Changes" style="background-color:yellow;font-family: Tahoma">
+
+</form>
+</html>
