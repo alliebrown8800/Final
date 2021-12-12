@@ -67,17 +67,14 @@ class Clock():
     # Adding blank space if only three digits:
     if len(timeNow) == 3:
       timeNow.insert(0,10) # ten is a blank space
+    print(timeNow)
     return(timeNow)
 
   def runClock(self, timeNow):
-    print(time.localtime().tm_min)
-    print(self.currentMinute)
     if str(time.localtime().tm_min) != self.currentMinute:
-      timeNow = self.getTime()
+      timeNow = self.getTime() # the timeNow from gettime
       self.currentMinute = str(time.localtime().tm_min)
-      print('time now ' , timeNow)
     for d in range(4):
-      print(timeNow)
       GPIO.output(self.digitPins[d],1)
       self.setNumber(int(timeNow[d]))
       time.sleep(0.005)
