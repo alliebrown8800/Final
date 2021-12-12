@@ -87,11 +87,12 @@ try:
     checkTime = str(time.localtime().tm_hour - 5)+':'+str(minute) # this is the current time
 
     if chosen_alarm == checkTime: # if the current time is the time the alarm is set for
-      GPIO.output(buzzerPin,1); time.sleep(4) # turn on buzzer for 4 seconds      
+      GPIO.output(buzzerPin,1); time.sleep(2) # turn on buzzer for 4 seconds      
       if shotCheck:
         cannon(pwm,motorPin) # fire cannon
         shotCheck = False # has shot pong ball
       while GPIO.input(motionPin) == False: # while the motion sensor senses no motion
+        print('alarm goes off!')
         # Alarm beeps:
         motion = GPIO.input(motionPin)
         print(motion)
