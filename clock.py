@@ -74,6 +74,7 @@ class Clock():
       self.timeNow = self.getTime() # the timeNow from gettime
       self.currentMinute = str(time.localtime().tm_min)
     for d in range(4):
+      print(self.timenow)
       GPIO.output(self.digitPins[d],1)
       self.setNumber(int(self.timeNow[d]))
       time.sleep(0.005)
