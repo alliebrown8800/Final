@@ -93,7 +93,8 @@ try:
         shotCheck = False # has shot pong ball
       while GPIO.input(motionPin) == False: # while the motion sensor senses no motion
         # Alarm beeps:
-        print(GPIO.input(motionPin))
+        motion = GPIO.input(motionPin)
+        print(motion)
         GPIO.output(buzzerPin,1); time.sleep(.5)
         GPIO.output(buzzerPin,0); time.sleep(.5)
       GPIO.output(buzzerPin,0) # turn off alarm when motion is sensed
