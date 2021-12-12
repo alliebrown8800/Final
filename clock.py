@@ -63,7 +63,7 @@ class Clock():
     # Display non-military time:
     if hour > 12: hour = hour - 12
     # Making the time into a list of numbers:
-    self.timeNow = str(hour) + minute
+    self.timeNow = str(hour) + str(minute)
     self.timeNow = list(self.timeNow)
     # Adding blank space if only three digits:
     if len(self.timeNow) == 3:
