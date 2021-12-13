@@ -90,6 +90,8 @@ try:
 
 
     # if minute has changed, reset alarm
+    print(int(minute))
+    print(time.localtime().tm_min)
     if int(minute) != time.localtime().tm_min: 
       alarmGoneOff = False
       shotCheck = True
