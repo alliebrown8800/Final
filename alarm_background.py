@@ -85,7 +85,9 @@ try:
     if minute < 10: minute = '0' + str(minute)
     # Formatting time:
     hour = time.localtime().tm_hour - 5
+    print(hour)
     if hour < 1: hour = hour + 24
+    print(hour)
     if hour > 12: hour = hour - 12
     # Making the time into a list of numbers:
     currentTime = str(hour) + ':' + str(minute)
