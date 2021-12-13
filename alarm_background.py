@@ -90,11 +90,6 @@ try:
     # Get the time:
     checkTime = formatTime(time.localtime().tm_hour, time.localtime().tm_min)
 
-    print(GPIO.input(motionPin))
-    print(chosen_alarm)
-    print(checkTime)
-    print(alarmGoneOff)
-
     if chosen_alarm == checkTime and alarmGoneOff == False: # if the current time = alarm time, and the alarm hasn't gone off within this minute yet
       alarmGoneOff = True
       GPIO.output(buzzerPin,1); time.sleep(2) # turn on buzzer for 4 seconds      
@@ -102,7 +97,6 @@ try:
         cannon(pwm,motorPin) # fire cannon
         shotCheck = False # has shot pong ball
       while GPIO.input(motionPin) == False: # while the motion sensor senses no motion
-        print(GPIO.input(motionPin))
         # Alarm beeps:
         GPIO.output(buzzerPin,1); time.sleep(.5)
         GPIO.output(buzzerPin,0); time.sleep(.5)
