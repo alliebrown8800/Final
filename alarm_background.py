@@ -64,7 +64,6 @@ def formatTime(hour,minute):
     if minute < 10: minute = '0' + str(minute)
     hour = hour - 5
     if hour < 1: hour = hour + 24
-    if hour > 12: hour = hour - 12
     # Making the time into a list of numbers:
     return(str(hour) + ':' + str(minute)) 
 
@@ -89,8 +88,7 @@ try:
     if int(minute) != time.localtime().tm_min: alarmGoneOff = False
 
     # Get the time:
-    currentTime = formatTime(time.localtime().tm_hour, time.localtime().tm_min)
-    checkTime = str(currentTime) # this is the current time
+    checkTime = formatTime(time.localtime().tm_hour, time.localtime().tm_min)
 
     print(GPIO.input(motionPin))
     print(chosen_alarm)
