@@ -78,6 +78,7 @@ try:
     if str(parents_options['alarm']) != chosen_alarm and parents_options['alarm'] != 'null': # if the chosen alarm is different than what it was before (null keeps the previous alarm)
       chosen_alarm = str(parents_options['alarm']) # then change it
       alarmGoneOff = False # reset alarm just in case
+      shotCheck = True
     
     # send parent's message
     if chosen_message == 'smile':
@@ -89,7 +90,9 @@ try:
 
 
     # if minute has changed, reset alarm
-    if int(minute) != time.localtime().tm_min: alarmGoneOff = False
+    if int(minute) != time.localtime().tm_min: 
+      alarmGoneOff = False
+      shotCheck = True
 
     # Get the time:
     checkTime = formatTime(time.localtime().tm_hour, time.localtime().tm_min)
