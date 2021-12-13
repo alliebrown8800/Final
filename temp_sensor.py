@@ -4,6 +4,7 @@ import RPi.GPIO as GPIO
 import time
 DHTPin = 23  #port to send and read
 
+# Temp sensor script copied from REXQualis folder
 class DHT(object):
 	DHTLIB_OK = 0
 	DHTLIB_ERROR_CHECKSUM = -1
@@ -79,6 +80,7 @@ class DHT(object):
 			return self.DHTLIB_ERROR_CHECKSUM
 		return self.DHTLIB_OK
 
+# Ignore everything else below:
 def loop():
 	dht = DHT(DHTPin)#create a DHT class object
 	while(True):

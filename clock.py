@@ -7,6 +7,8 @@ from temp_sensor import DHT # temp sensor class
 class Clock():
 
   'Class for controlling the clock'
+
+  # Different patterns for different numbers needed
   numbers = [ 
     0b11000000, # 0
     0b11111001, # 1
@@ -21,11 +23,11 @@ class Clock():
     0b11111111, # blank
     0b10001110] # F
 
-
   def __init__(self, data, latch, clock, digitPins, switchPin, DHTPin):
     
     self.shifter = Shifter(data, latch, clock)
 
+    # Pin setup:
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(digitPins[0], GPIO.OUT) 
     GPIO.setup(digitPins[1], GPIO.OUT) 
@@ -33,15 +35,16 @@ class Clock():
     GPIO.setup(digitPins[3], GPIO.OUT)
     GPIO.setup(switchPin, GPIO.IN)
 
+    # Creating variables that can be used within the whole class
     self.digitPins = digitPins
     self.switchPin = switchPin
 
-    self.currentMinute = ''
+    self.currentMinute = '' # create current minute variable
 
-    self.tempSensor = DHT(DHTPin)
+    self.tempSensor = DHT(DHTPin) # create temp sensor obj
 
-    self.tempRead = multiprocessing.Value('i')
-    self.tempRead.value = 60
+    self.tempRead = multiprocessing.Value('i') # create mp objects
+    self.tempRead.value = 60 # initialize a value
 
     self.p = multiprocessing.Process(target=self.run,args=()) # create mp object
     self.p.daemon = True # daemon object
@@ -55,8 +58,8 @@ class Clock():
     self.shifter.shiftByte(Clock.numbers[num])
 
   def getTime(self):
-    minute = time.localtime().tm_min
-    if minute < 10: minute = '0' + str(minute)
+    minute = time.localtime().tm_min # get current minute
+    if minute < 10: minute = '0' + str(minute) # add a zero for single digit
     # Because the time comes up wrong:
     hour = time.localtime().tm_hour - 5
     if hour < 1: hour = hour + 24
@@ -70,20 +73,22 @@ class Clock():
       self.timeNow.insert(0,10) # ten is a blank space
     return(self.timeNow)
 
+  # Function for running the clock display:
   def runClock(self, timeNow):
-    if str(time.localtime().tm_min) != self.currentMinute:
+    if str(time.localtime().tm_min) != self.currentMinute: # if the minute has changed
       self.timeNow = self.getTime() # the timeNow from gettime
-      self.currentMinute = str(time.localtime().tm_min)
-    for d in range(4):
+      self.currentMinute = str(time.localtime().tm_min) # change the current minute value for comparing
+    for d in range(4): # change each digit one at a time
       GPIO.output(self.digitPins[d],1)
       self.setNumber(int(self.timeNow[d]))
       time.sleep(0.005)
       GPIO.output(self.digitPins[d],0)
 
+  # Function for running the temperature display:
   def runTemp(self):
-    temp = str(self.tempRead.value)
-    temp = list(temp)
-    for d in range(4):
+    temp = str(self.tempRead.value) # get temp from readTemp which is continually running
+    temp = list(temp) # turn into a list of numbers
+    for d in range(4): # change each digit one at a time
       GPIO.output(self.digitPins[d],1)
       if d == 0: self.setNumber(10)
       elif d == 3: self.setNumber(11)
@@ -91,20 +96,21 @@ class Clock():
       time.sleep(0.005)
       GPIO.output(self.digitPins[d],0) 
 
+  # Function that runs the whole display (starts when clock object is created)
   def run(self):
-    self.timeNow = self.getTime()
+    self.timeNow = self.getTime() # get the time
     while True:
-      switch = GPIO.input(self.switchPin)
+      switch = GPIO.input(self.switchPin) # read switch value
       if switch == True:
-        self.runClock(self.timeNow)
+        self.runClock(self.timeNow) # clock display
       elif switch == False:
-        self.runTemp()
+        self.runTemp() # temperature display
 
   def readTemp(self):
     while True:
-      self.tempSensor.readDHT11()
-      if self.tempSensor.temperature > 0:
+      self.tempSensor.readDHT11() # read temperature
+      if self.tempSensor.temperature > 0: # handling random large negative values
         celsius = int(self.tempSensor.temperature)
-        fahr = int(float(celsius)*(1.8) + 32)
+        fahr = int(float(celsius)*(1.8) + 32) # convert to fahrenheit
         self.tempRead.value = fahr
-      time.sleep(2)
+      time.sleep(2) # only do this every two seconds or so

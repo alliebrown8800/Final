@@ -46,8 +46,8 @@ matrix.updatePattern(blankPattern) # start on blank until message is chosen
 # Other initialized values:
 chosen_alarm = '' # initialize with no alarm chosen
 GPIO.output(buzzerPin,0) # make sure buzzer for alarm is OFF
-alarmGoneOff = False
-minute = time.localtime().tm_min
+alarmGoneOff = False # alarm has not gone off
+minute = time.localtime().tm_min # get current minute
 
 # Function for shooting cannon:
 def cannon(pwm,motorPin):
@@ -60,6 +60,7 @@ def cannon(pwm,motorPin):
   pwm.ChangeDutyCycle(2)
   time.sleep(.5)
 
+# Function for formatting time into a military time string in the correct time zone
 def formatTime(hour,minute):
     if minute < 10: minute = '0' + str(minute)
     hour = hour - 5
@@ -67,17 +68,17 @@ def formatTime(hour,minute):
     # Making the time into a list of numbers:
     return(str(hour) + ':' + str(minute)) 
 
-
 try:
   while True:
     with open("alarm.txt", 'r') as f:
       parents_options = json.load(f) # retrieving json data from txt
     chosen_message = str(parents_options['message']) # the message that the parents chose
 
-    if str(parents_options['alarm']) != chosen_alarm and parents_options['alarm'] != 'null': # if the chosen alarm is different than what it was before
-      chosen_alarm = str(parents_options['alarm']) # then change it - this will be a string i believe 0345 yanno
-      alarmGoneOff = False
-      
+    if str(parents_options['alarm']) != chosen_alarm and parents_options['alarm'] != 'null': # if the chosen alarm is different than what it was before (null keeps the previous alarm)
+      chosen_alarm = str(parents_options['alarm']) # then change it
+      alarmGoneOff = False # reset alarm just in case
+    
+    # send parent's message
     if chosen_message == 'smile':
       matrix.updatePattern(smilePattern)
     elif chosen_message == 'silly':
@@ -85,6 +86,8 @@ try:
     elif chosen_message == 'heart':
       matrix.updatePattern(heartPattern)
 
+
+    # if minute has changed, reset alarm
     if int(minute) != time.localtime().tm_min: alarmGoneOff = False
 
     # Get the time:
@@ -92,10 +95,10 @@ try:
 
     if chosen_alarm == checkTime and alarmGoneOff == False: # if the current time = alarm time, and the alarm hasn't gone off within this minute yet
       alarmGoneOff = True
-      GPIO.output(buzzerPin,1); time.sleep(2) # turn on buzzer for 4 seconds      
+      GPIO.output(buzzerPin,1); time.sleep(2) # turn on buzzer for a few seconds      
       if shotCheck:
         cannon(pwm,motorPin) # fire cannon
-        shotCheck = False # has shot pong ball
+        shotCheck = False
       while GPIO.input(motionPin) == False: # while the motion sensor senses no motion
         # Alarm beeps:
         GPIO.output(buzzerPin,1); time.sleep(.5)
