@@ -92,6 +92,9 @@ try:
     checkTime = str(time.localtime().tm_hour - 5)+':'+str(minute) # this is the current time
 
     print(GPIO.input(motionPin))
+    print(chosen_alarm)
+    print(checkTime)
+    print(alarmGoneOff)
 
     if chosen_alarm == checkTime and alarmGoneOff == False: # if the current time = alarm time, and the alarm hasn't gone off within this minute yet
       alarmGoneOff = True
