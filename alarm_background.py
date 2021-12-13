@@ -91,6 +91,8 @@ try:
     currentTime = str(hour) + ':' + str(minute)
     checkTime = str(time.localtime().tm_hour - 5)+':'+str(minute) # this is the current time
 
+    print(GPIO.input(motionPin))
+
     if chosen_alarm == checkTime and alarmGoneOff == False: # if the current time = alarm time, and the alarm hasn't gone off within this minute yet
       alarmGoneOff = True
       GPIO.output(buzzerPin,1); time.sleep(2) # turn on buzzer for 4 seconds      
