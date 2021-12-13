@@ -98,6 +98,7 @@ try:
 
     # Get the time:
     checkTime = formatTime(time.localtime().tm_hour, time.localtime().tm_min)
+    minute = time.localtime().tm_min
 
     if chosen_alarm == checkTime and alarmGoneOff == False: # if the current time = alarm time, and the alarm hasn't gone off within this minute yet
       alarmGoneOff = True
