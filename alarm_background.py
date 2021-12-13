@@ -60,6 +60,14 @@ def cannon(pwm,motorPin):
   pwm.ChangeDutyCycle(2)
   time.sleep(.5)
 
+def formatTime(hour,minute):
+    if minute < 10: minute = '0' + str(minute)
+    hour = hour - 5
+    if hour < 1: hour = hour + 24
+    if hour > 12: hour = hour - 12
+    # Making the time into a list of numbers:
+    return(str(hour) + ':' + str(minute)) 
+
 
 try:
   while True:
@@ -81,17 +89,8 @@ try:
     if int(minute) != time.localtime().tm_min: alarmGoneOff = False
 
     # Get the time:
-    minute = time.localtime().tm_min
-    if minute < 10: minute = '0' + str(minute)
-    # Formatting time:
-    hour = time.localtime().tm_hour - 5
-    print(hour)
-    if hour < 1: hour = hour + 24
-    print(hour)
-    if hour > 12: hour = hour - 12
-    # Making the time into a list of numbers:
-    currentTime = str(hour) + ':' + str(minute)
-    checkTime = str(time.localtime().tm_hour - 5)+':'+str(minute) # this is the current time
+    currentTime = formatTime(time.localtime().tm_hour, time.localtime().tm_min)
+    checkTime = str(currentTime) # this is the current time
 
     print(GPIO.input(motionPin))
     print(chosen_alarm)
