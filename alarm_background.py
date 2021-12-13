@@ -29,6 +29,7 @@ GPIO.setup(latch, GPIO.OUT)
 GPIO.setup(clock, GPIO.OUT)
 # PWM setup for cannon:
 pwm = GPIO.PWM(pwmPin, 50)
+GPIO.output(motorPin, 0)
 pwm.start(0)
 
 # Create clock object and begin clock:
